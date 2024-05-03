@@ -24,6 +24,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 import { useModalStore } from "@/providers/modal-store-provider";
+import { useApiCountStore } from "@/providers/api-count-store-provider";
 import { addUser } from "@/lib/api/add-user";
 import revalidator from "@/actions/revalidator";
 import { clientPaths } from "@/lib/client-paths";
@@ -39,6 +40,7 @@ export default function AddUserModal() {
   const router = useRouter();
 
   const { isOpen, onClose, type } = useModalStore((store) => store);
+  const increment = useApiCountStore((store) => store.increment);
 
   const form = useForm<AddUserFormValues>({
     resolver: zodResolver(AddUserFormSchema),
@@ -65,6 +67,7 @@ export default function AddUserModal() {
 
     toast.success(apiResponse.message);
     handleClose();
+    increment();
 
     // revalidate and refresh the page
     revalidator([clientPaths.home()]);

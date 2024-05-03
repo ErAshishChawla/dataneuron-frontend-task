@@ -9,6 +9,7 @@ import { useModalStore } from "@/providers/modal-store-provider";
 import { type User } from "@/types";
 import { ModalType } from "@/stores/modal-store";
 import { Edit2 } from "lucide-react";
+import { useApiCountStore } from "@/providers/api-count-store-provider";
 
 interface UserTableProps {
   users: User[];
@@ -16,6 +17,7 @@ interface UserTableProps {
 
 function UserTable({ users }: UserTableProps) {
   const onOpen = useModalStore((store) => store.onOpen);
+  const count = useApiCountStore((store) => store.count);
   let content: React.ReactNode;
 
   if (users.length === 0 || !users) {
@@ -43,7 +45,8 @@ function UserTable({ users }: UserTableProps) {
 
   return (
     <div className="flex-1 flex flex-col gap-2">
-      <div className="w-full flex flex-row-reverse">
+      <div className="w-full flex justify-end gap-4 items-center">
+        <p className="text-sm">Api Calls: {count}</p>
         <Button
           onClick={() => {
             onOpen(ModalType.addUser);
@@ -52,13 +55,11 @@ function UserTable({ users }: UserTableProps) {
           Add User
         </Button>
       </div>
-      <div className="border border-blue-500 rounded-md overflow-y-auto flex flex-col h-fit">
+      <div className="border border-blue-500 rounded-md flex flex-col">
         <div className="border-b border-blue-500 p-4 w-full">
           <p className="font-semibold">Name</p>
         </div>
-        <div className="flex-1 flex flex-col overflow-y-auto p-2">
-          {content}
-        </div>
+        <div className="flex-1 flex flex-col p-2">{content}</div>
       </div>
     </div>
   );

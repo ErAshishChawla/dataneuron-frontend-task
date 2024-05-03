@@ -24,6 +24,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 import { useModalStore } from "@/providers/modal-store-provider";
+import { useApiCountStore } from "@/providers/api-count-store-provider";
 import { updateUser } from "@/lib/api/update-user";
 import { nameFormatter } from "@/lib/formatters";
 import revalidator from "@/actions/revalidator";
@@ -40,6 +41,8 @@ export default function EditUserModal() {
 
   const { isOpen, onClose, type, data } = useModalStore((store) => store);
   const user = data?.user;
+
+  const increment = useApiCountStore((store) => store.increment);
 
   const form = useForm<EditUserFormValues>({
     resolver: zodResolver(EditUserFormSchema),
@@ -79,12 +82,13 @@ export default function EditUserModal() {
     }
 
     toast.success(apiResponse.message);
+    handleClose();
+    increment();
 
     await revalidator([clientPaths.home()]);
 
     // revalidate the data
-    router.refresh();
-    return handleClose();
+    return router.refresh();
   };
 
   return (

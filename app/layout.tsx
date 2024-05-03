@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/sonner";
 
 import ModalProvider from "@/providers/modal-provider";
 import { ModalStoreProvider } from "@/providers/modal-store-provider";
+import { ApiCountStoreProvider } from "@/providers/api-count-store-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,9 +24,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <ModalStoreProvider>
-          <main className="flex flex-col w-screen h-screen">{children}</main>
-          <ModalProvider />
-          <Toaster />
+          <ApiCountStoreProvider>
+            <main className="flex flex-col w-screen h-screen">{children}</main>
+            <ModalProvider />
+            <Toaster />
+          </ApiCountStoreProvider>
         </ModalStoreProvider>
       </body>
     </html>
