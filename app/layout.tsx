@@ -2,6 +2,11 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
+import { Toaster } from "@/components/ui/sonner";
+
+import ModalProvider from "@/providers/modal-provider";
+import { ModalStoreProvider } from "@/providers/modal-store-provider";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -17,7 +22,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <main className="flex flex-col w-screen h-screen">{children}</main>
+        <ModalStoreProvider>
+          <main className="flex flex-col w-screen h-screen">{children}</main>
+          <ModalProvider />
+          <Toaster />
+        </ModalStoreProvider>
       </body>
     </html>
   );

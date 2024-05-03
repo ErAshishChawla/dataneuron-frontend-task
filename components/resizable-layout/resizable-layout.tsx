@@ -15,7 +15,7 @@ interface ResizableLayoutProps {
   users: User[];
 }
 
-function ResizableLayout() {
+function ResizableLayout({ users }: ResizableLayoutProps) {
   return (
     <div className="flex-1 flex flex-col p-2">
       <ResizablePanelGroup
@@ -39,8 +39,8 @@ function ResizableLayout() {
         </ResizablePanel>
         <ResizableHandle withHandle />
         <ResizablePanel defaultSize={50} minSize={30}>
-          <div className="flex h-full p-6 flex-col">
-            <UserTable data={[]} />
+          <div className="flex h-full p-6 flex-col overflow-y-auto">
+            <UserTable users={users} />
           </div>
         </ResizablePanel>
       </ResizablePanelGroup>
