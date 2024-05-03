@@ -8,13 +8,16 @@ import { UpdateUserFormValues } from "@/zod-schemas/api/update-user-form-api";
 
 import { ApiResponseType } from "@/types";
 
+// Purpose: Update a user in the database.
 export const updateUser = async (data: UpdateUserFormValues) => {
   try {
+    // Make a PATCH request to the server to update a user
     const response = await api.patch<ApiResponseType>(
       apiPaths.editUser(),
       data
     );
 
+    // Get the response data
     const apiResponse = response.data as ApiResponseType;
 
     return apiResponse;

@@ -8,10 +8,13 @@ import { AddUserFormValues } from "@/zod-schemas/add-user-form-schema";
 
 import { ApiResponseType } from "@/types";
 
+// Purpose: Add a new user to the database.
 export const addUser = async (data: AddUserFormValues) => {
   try {
+    // Make a PUT request to the server to add a new user
     const response = await api.put<ApiResponseType>(apiPaths.addUser(), data);
 
+    // Get the response data
     const apiResponse = response.data as ApiResponseType;
 
     return apiResponse;

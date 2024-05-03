@@ -8,6 +8,7 @@ import { z } from "zod";
 
 const fullNameRegex = new RegExp("^[a-zA-Z]+(?: [a-zA-Z]+)?$");
 
+// Zod Schema for update user api call
 export const UpdateUserApiSchema = z.object({
   id: z.string().min(1, "ID is required"),
   name: z
@@ -18,4 +19,5 @@ export const UpdateUserApiSchema = z.object({
     .regex(fullNameRegex, "Invalid name format"),
 });
 
+// Type for update user api call
 export type UpdateUserFormValues = z.infer<typeof UpdateUserApiSchema>;

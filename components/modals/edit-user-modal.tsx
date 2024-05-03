@@ -37,13 +37,18 @@ import {
 } from "@/zod-schemas/edit-user-form-schema";
 
 export default function EditUserModal() {
+  // Get the router object
   const router = useRouter();
 
+  // Get the modal store values
   const { isOpen, onClose, type, data } = useModalStore((store) => store);
+  // Get the user data from the modal store
   const user = data?.user;
 
+  // Get the increment function from the api count store
   const increment = useApiCountStore((store) => store.increment);
 
+  // Create a form using react-hook-form
   const form = useForm<EditUserFormValues>({
     resolver: zodResolver(EditUserFormSchema),
     defaultValues: {
@@ -51,40 +56,52 @@ export default function EditUserModal() {
     },
   });
 
+  // Set the user name in the form
   useEffect(() => {
     if (user) {
       form.setValue("name", user.name);
     }
   }, [user]);
 
+  // Check if the form is submitting
   const isLoading = form.formState.isSubmitting;
 
+  // Function to close the modal
   const handleClose = () => {
     form.reset();
     onClose();
   };
 
+  // Function to submit the form
   const onSubmit = async (data: EditUserFormValues) => {
+    // Check if the user is present
     if (!user) {
       toast.error("User not found");
       return;
     }
 
-    // call the add user request
+    // call the edit user request
     const apiResponse = await updateUser({
       id: user._id,
       name: data.name,
     });
 
+    // check if the api call was successful
     if (!apiResponse.success) {
       toast.error(apiResponse.message);
       return;
     }
 
+    // show a success message
     toast.success(apiResponse.message);
+
+    // close the modal
     handleClose();
+
+    // increment the api count
     increment();
 
+    // revalidate the data
     await revalidator([clientPaths.home()]);
 
     // revalidate the data

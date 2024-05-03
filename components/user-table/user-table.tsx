@@ -16,10 +16,14 @@ interface UserTableProps {
 }
 
 function UserTable({ users }: UserTableProps) {
+  // Get the onOpen function from the modal store
   const onOpen = useModalStore((store) => store.onOpen);
+  // Get the api count from the api count store
   const count = useApiCountStore((store) => store.count);
+
   let content: React.ReactNode;
 
+  // Check if there are no users
   if (users.length === 0 || !users) {
     content = <span className="font-semibold">No users</span>;
   } else {
@@ -31,6 +35,7 @@ function UserTable({ users }: UserTableProps) {
             size={"icon"}
             variant={"ghost"}
             onClick={() => {
+              // Open the edit user modal with the user data
               onOpen(ModalType.editUser, {
                 user: user,
               });
@@ -46,6 +51,7 @@ function UserTable({ users }: UserTableProps) {
   return (
     <div className="flex-1 flex flex-col gap-2">
       <div className="w-full flex justify-end gap-4 items-center">
+        {/* Display the api count and add user button */}
         <p className="text-sm">Api Calls: {count}</p>
         <Button
           onClick={() => {

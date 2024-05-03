@@ -8,6 +8,7 @@ import { z } from "zod";
 
 const fullNameRegex = new RegExp("^[a-zA-Z]+(?: [a-zA-Z]+)?$");
 
+// Zod Schema for add user form
 export const AddUserFormSchema = z.object({
   name: z
     .string()
@@ -17,4 +18,5 @@ export const AddUserFormSchema = z.object({
     .regex(fullNameRegex, "Invalid name format"),
 });
 
+// Type for add user form values
 export type AddUserFormValues = z.infer<typeof AddUserFormSchema>;

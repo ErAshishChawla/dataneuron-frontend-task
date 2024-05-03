@@ -1,3 +1,6 @@
+// Purpose: Contains all the formatters used in the application.
+
+// Formats the name to have the first letter of each word capitalized.
 export const nameFormatter = (name: string) => {
   if (!name) return "";
 

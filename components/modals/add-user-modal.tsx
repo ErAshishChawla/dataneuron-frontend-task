@@ -37,11 +37,15 @@ import {
 } from "@/zod-schemas/add-user-form-schema";
 
 export default function AddUserModal() {
+  // Get the router object
   const router = useRouter();
 
+  // Get the modal store values
   const { isOpen, onClose, type } = useModalStore((store) => store);
+  // Get the increment function from the api count store
   const increment = useApiCountStore((store) => store.increment);
 
+  // Create a form using react-hook-form
   const form = useForm<AddUserFormValues>({
     resolver: zodResolver(AddUserFormSchema),
     defaultValues: {
@@ -49,24 +53,32 @@ export default function AddUserModal() {
     },
   });
 
+  // Check if the form is submitting
   const isLoading = form.formState.isSubmitting;
 
+  // Function to close the modal
   const handleClose = () => {
     form.reset();
     onClose();
   };
 
+  // Function to handle form submission
   const onSubmit = async (data: AddUserFormValues) => {
     // call the add user request
     const apiResponse = await addUser(data);
 
+    // check if the api call was successful
     if (!apiResponse.success) {
       toast.error(apiResponse.message);
       return;
     }
 
+    // show a success message
     toast.success(apiResponse.message);
+    // close the modal
     handleClose();
+
+    // increment the api count
     increment();
 
     // revalidate and refresh the page
